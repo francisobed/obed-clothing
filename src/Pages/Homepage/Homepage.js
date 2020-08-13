@@ -2,9 +2,10 @@ import React from 'react'
 import Directory from '../../Components/Directory/Directory'
 import './homepage.scss'
 
-const Homepage = () =>(
+const Homepage = () => (
+
         <div className='homepage'>
-        <Directory />
+          <Directory />
         </div>
 )
 
