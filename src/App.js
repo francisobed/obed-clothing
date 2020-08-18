@@ -6,27 +6,46 @@ import "./App.css";
 import Homepage from "./Pages/homepage/Homepage";
 import ShopPage from './Pages/shop/Shop'
 import Header from './Components/header/Header'
-import SignInAndSignUp from './Pages/Sign-in-and-sign-up/Sign-in-and-sign-up'
-import {auth} from './firebase/firebase.util';
+import Signinandsignup from './Pages/Sign-in-and-sign-up/Sign-in-and-sign-up'
+// import SignIn from './Components/sign-in/Sign-in'
+// import SignUp from './Components/sign-up/Sign-up'
+import {auth, createUserProfileDocument} from './firebase/firebase.util';
 
 class App extends React.Component{
-  constructor(props){
-    super(props);
+  constructor(){
+    super();
 
     this.state={
       currentUser: null
     }
   }
 
-  unsubscribefromAuth = null
+  unsubscribeFromAuth = null
 
-  componentDidMount(){
+  componentDidMount() {
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+      
+      if(userAuth){
+        const userRef = await  createUserProfileDocument(userAuth);
 
-    this.unsubscribefromAuth = auth.onAuthStateChanged(user => {
-      this.setState({currentUser: user});
+        userRef.onSnapshot(snapShot => {
+          this.setState({
+            currentUser: {
+              id: snapShot.id,
+              ...snapShot.data()
+            }
+          });
 
-      console.log(user);
-    })
+          console.log(this.state);
+        });
+      }
+
+      this.setState({user: userAuth})
+    });
+  }
+
+  componentWillUnmount(){
+    this.unsubscribeFromAuth();
   }
 
   render(){
@@ -36,7 +55,8 @@ class App extends React.Component{
       <Switch>
         <Route exact path="/" component={Homepage} />
         <Route path="/shop" component={ShopPage} />
-        <Route path="/signin" component={SignInAndSignUp} />
+        <Route path="/signin" component={Signinandsignup} />
+        {/* <Route path="/signup" component={SignUp} /> */}
 
       </Switch>
     </div>
