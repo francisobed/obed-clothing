@@ -5,3 +5,13 @@ body{
     text-decoration: none;
     color: black;
 }
+
+*{
+    box-sizing: border-box;
+}
+
+.modal{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

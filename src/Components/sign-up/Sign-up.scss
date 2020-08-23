@@ -1,20 +1,13 @@
-.sign-in {
-    width: 380px;
+.sign-up{
     display: flex;
     flex-direction: column;
+    width: 380px;
     // position: absolute;
     // top: 50%;
     // left: 50%;
     // transform: translate(-50%, -50%);
-   
-}
 
-.title {
-    margin: 10px 0;
-}
-
-.buttons{
-    display: flex;
-    justify-content: space-between;
-    margin: 0 auto;
+    .title{
+        margin: 10px, 0px;
+    }
 }

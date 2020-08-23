@@ -1,6 +1,9 @@
 import React from 'react'
 
-import FormInput from '../form-input/form-input'
+import FormInput from '../form-input/form-input';
+import CustomButton from '../custom-button/Custom-button'
+
+import {auth, signInWithGoogle} from '../../firebase/firebase.util'
 import './Sign-in.scss'
 
 class SignIn extends React.Component {
@@ -13,9 +16,16 @@ class SignIn extends React.Component {
             }
         }
 
-        handleSubmit = (event) => {
+        handleSubmit = async (event) => {
             event.preventDefault();
-            this.setState({ email: '', password: ''})
+            const {email, password } = this.state;
+
+            try{
+                await auth.signInWithEmailAndPassword(email, password);
+                this.setState({ email: '', password: ''})
+            } catch (error) {
+                console.log(error);
+            }
         }
 
         handleChange = (event) => {
@@ -36,7 +46,7 @@ class SignIn extends React.Component {
                         type='email' 
                         value={this.state.email} 
                         onChange={this.handleChange}
-                        label='password'
+                        label='email'
                         required 
                     />
 
@@ -45,11 +55,14 @@ class SignIn extends React.Component {
                         type='password' 
                         value={this.state.password} 
                         handleChange={this.handleChange}
-                        label='email'
+                        label='password'
                         required 
                      />
-
-                    <input type='submit' value='Submit Form' />
+                    
+                     <div className='buttons'>
+                    <CustomButton type='submit'> Sign in </CustomButton>
+                    <CustomButton onClick={signInWithGoogle} isGoogleSignIn> Sign in with Google </CustomButton>
+                    </div>
                 </form>
               </div>
             )
